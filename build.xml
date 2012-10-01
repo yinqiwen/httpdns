@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<project name="httpdns" default="war">
+	<property name="root" value="." />
+	<property name="srcroot" value="${root}/src" />
+
+	<property name="lib" value="${root}/lib" />
+	<property name="war" value="${root}/war" />
+	<property name="warlib" value="${root}/war/WEB-INF/lib" />
+	<property name="warclasses" value="${root}/war/WEB-INF/classes" />
+	<property name="project_name" value="httpdns" />
+
+	<tstamp />
+	<target name="prepare">
+		<mkdir dir="${warclasses}" />
+	</target>
+
+
+	<target name="compile" depends="prepare">
+		
+		<javac debug="on" destdir="${warclasses}">
+			<src path="${srcroot}" />
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${warclasses}/template" file="${srcroot}/template/result.html.template"></copy>
+	</target>
+
+	<target name="war" depends="compile">
+		<zip destfile="${project_name}.war" basedir="${war}"/>
+	</target>
+
+</project>
