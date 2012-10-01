@@ -70,9 +70,11 @@ public class DNSServlet extends HttpServlet
 				        .append("<br />");
 			}
 			result = result.replace("${CONTENT}", buffer.toString());
+			resp.setContentLength(result.length());
 			resp.getOutputStream().print(result);
 			return;
 		}
+		resp.setStatus(400);
 		resp.getOutputStream().print("No Host para.");
 	}
 	
@@ -88,16 +90,20 @@ public class DNSServlet extends HttpServlet
 			buffer.append("[");
 			for (int i = 0; i < ips.length; i++)
 			{
+				buffer.append("\"");
 				buffer.append(ips[i]);
+				buffer.append("\"");
 				if (i != ips.length - 1)
 				{
 					buffer.append(",");
 				}
 			}
 			buffer.append("]");
+			resp.setContentLength(buffer.length());
 			resp.getOutputStream().print(buffer.toString());
 			return;
 		}
+		resp.setStatus(400);
 		resp.getOutputStream().print("No Host para.");
 	}
 }
